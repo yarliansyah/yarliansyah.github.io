@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul Ajar Interaktif: Jaringan Nirkabel & Perawatan TKJ XI</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for Wi-Fi Channel Simulation -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        .bg-grid-pattern {
+            background-size: 30px 30px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-sky-500/20">
+                        <i class="fa-solid me-0 fa-wifi text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold tracking-wider text-sky-400 uppercase">SMK KELAS XI TKJ</span>
+                        <h1 class="text-sm md:text-base font-bold text-white leading-tight">Jaringan Nirkabel & Maintenance</h1>
+                    </div>
+                </div>
+                
+                <!-- Desktop Nav Navigations -->
+                <nav class="hidden lg:flex items-center space-x-1 text-sm font-medium">
+                    <a href="#standar" class="px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition">Standar 802.11</a>
+                    <a href="#perangkat" class="px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition">Perangkat & Antena</a>
+                    <a href="#simulasi-konfig" class="px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition">Lab Konfigurasi</a>
+                    <a href="#troubleshooting" class="px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition">Troubleshooting</a>
+                    <a href="#lkpd" class="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold transition shadow-md shadow-sky-600/30">LKPD Interaktif</a>
+                </nav>
+
+                <!-- Mobile menu button -->
+                <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-lg text-slate-400 hover:bg-slate-800 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden border-b border-slate-800 bg-slate-900 px-4 pt-2 pb-4 space-y-1">
+            <a href="#standar" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800">Standar 802.11</a>
+            <a href="#perangkat" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800">Perangkat & Antena</a>
+            <a href="#simulasi-konfig" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800">Lab Konfigurasi</a>
+            <a href="#troubleshooting" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800">Troubleshooting</a>
+            <a href="#lkpd" class="block px-3 py-2 rounded-lg bg-sky-600 text-white font-medium text-center mt-2">LKPD Interaktif</a>
+        </div>
+    </header>
+
+    <section class="relative py-12 md:py-16 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 border-b border-slate-800 bg-grid-pattern">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-7 space-y-5">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
+                        Modul Pembelajaran Kurikulum Merdeka / K13 Revisi
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                        Menguasai Teknologi <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-indigo-400">Jaringan Nirkabel</span> & Troubleshooting
+                    </h1>
+                    <p class="text-slate-400 text-base sm:text-lg">
+                        Media pembelajaran komprehensif untuk siswa SMK TKJ Kelas XI. Dilengkapi dengan materi standar frekuensi, karakteristik antena, simulator jaringan interaktif, serta latihan praktikum pemeliharaan jaringan.
+                    </p>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <a href="#simulasi-konfig" class="px-5 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold transition flex items-center gap-2 shadow-lg shadow-sky-600/25">
+                            <i class="fa-solid fa-sliders"></i> Coba Simulator Router
+                        </a>
+                        <a href="#troubleshooting" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold border border-slate-700 transition flex items-center gap-2">
+                            <i class="fa-solid fa-wrench"></i> Lab Troubleshooting
+                        </a>
+                    </div>
+                </div>
+                <div class="md:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-sm p-6 bg-slate-800/80 rounded-2xl border border-slate-700/60 backdrop-blur-sm shadow-2xl space-y-4">
+                        <div class="flex items-center justify-between pb-3 border-b border-slate-700">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Capaian Pembelajaran (CP)</span>
+                            <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                        </div>
+                        <ul class="space-y-3 text-xs md:text-sm text-slate-300">
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-check text-sky-400 mt-1"></i>
+                                <span>Memahami evolusi & spesifikasi standar IEEE 802.11a/b/g/n/ac/ax.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-check text-sky-400 mt-1"></i>
+                                <span>Mengidentifikasi fungsi Access Point, Wireless Router & Jenis Antena.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-check text-sky-400 mt-1"></i>
+                                <span>Melakukan konfigurasi SSID, Keamanan, DHCP & Channel pada AP/Router.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-check text-sky-400 mt-1"></i>
+                                <span>Mendeteksi & memeperbaiki gangguan koneksi kabel serta nirkabel.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Body -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+
+        <!-- SECTION A: Standar Jaringan Nirkabel (802.11 a/b/g/n/ac/ax) -->
+        <section id="standar" class="scroll-mt-20">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-sky-500/10 text-sky-400 rounded-xl border border-sky-500/20">
+                    <i class="fa-solid fa-network-wired text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-white">a. Standar Jaringan Nirkabel (IEEE 802.11)</h2>
+                    <p class="text-slate-400 text-sm">Perkembangan teknologi Wi-Fi, spektrum frekuensi, kecepatan, dan teknologi MIMO.</p>
+                </div>
+            </div>
+
+            <!-- Standard Table -->
+            <div class="bg-slate-800/60 rounded-2xl border border-slate-700/60 overflow-hidden mb-8 shadow-xl">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-300">
+                        <thead class="bg-slate-800 text-xs text-sky-400 uppercase font-semibold border-b border-slate-700">
+                            <tr>
+                                <th class="p-4">Generasi</th>
+                                <th class="p-4">Standar IEEE</th>
+                                <th class="p-4">Rilis</th>
+                                <th class="p-4">Frekuensi</th>
+                                <th class="p-4">Max Speed</th>
+                                <th class="p-4">Lebar Kanal</th>
+                                <th class="p-4">Teknologi Utama</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-700/50">
+                            <tr class="hover:bg-slate-700/30 transition">
+                                <td class="p-4 font-semibold text-slate-400">Wi-Fi 1</td>
+                                <td class="p-4 font-mono font-bold text-sky-300">802.11a</td>
+                                <td class="p-4">1999</td>
+                                <td class="p-4"><span class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-300 text-xs">5 GHz</span></td>
+                                <td class="p-4">54 Mbps</td>
+                                <td class="p-4">20 MHz</td>
+                                <td class="p-4 text-xs">OFDM</td>
+                            </tr>
+                            <tr class="hover:bg-slate-700/30 transition">
+                                <td class="p-4 font-semibold text-slate-400">Wi-Fi 2</td>
+                                <td class="p-4 font-mono font-bold text-sky-300">802.11b</td>
+                                <td class="p-4">1999</td>
+                                <td class="p-4"><span class="px-2 py-1 rounded bg-amber-500/10 text-amber-300 text-xs">2.4 GHz</span></td>
+                                <td class="p-4">11 Mbps</td>
+                                <td class="p-4">22 MHz</td>
+                                <td class="p-4 text-xs">DSSS</td>
+                            </tr>
+                            <tr class="hover:bg-slate-700/30 transition">
+                                <td class="p-4 font-semibold text-slate-400">Wi-Fi 3</td>
+                                <td class="p-4 font-mono font-bold text-sky-300">802.11g</td>
+                                <td class="p-4">2003</td>
+                                <td class="p-4"><span class="px-2 py-1 rounded bg-amber-500/10 text-amber-300 text-xs">2.4 GHz</span></td>
+                                <td class="p-4">54 Mbps</td>
+                                <td class="p-4">20 MHz</td>
+                                <td class="p-4 text-xs">OFDM</td>
+                            </tr>
+                            <tr class="hover:bg-slate-700/30 transition bg-sky-900/10">
+                                <td class="p-4 font-semibold text-emerald-400">Wi-Fi 4</td>
+                                <td class="p-4 font-mono font-bold text-sky-300">802.11n</td>
+                                <td class="p-4">2009</td>
+                                <td class="p-4"><span class="px-2 py-1 rounded bg-emerald-500/10 text-emerald-300 text-xs">2.4 GHz / 5 GHz</span></td>
+                                <td class="p-4">600 Mbps</td>
+                                <td class="p-4">20 / 40 MHz</td>
+                                <td class="p-4 text-xs">MIMO (Up to 4x4)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-700/30 transition">
+                                <td class="p-4 font-semibold text-sky-400">Wi-Fi 5</td>
+                                <td class="p-4 font-mono font-bold text-sky-300">802.11ac</td>
+                                <td class="p-4">2013</td>
+                                <td class="p-4"><span class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-300 text-xs">5 GHz</span></td>
+                                <td class="p-4">3.5 Gbps</td>
+                                <td class="p-4">20 - 160 MHz</td>
+                                <td class="p-4 text-xs">MU-MIMO, 256-QAM</td>
+                            </tr>
+                            <tr class="hover:bg-slate-700/30 transition bg-indigo-900/20">
+                                <td class="p-4 font-semibold text-purple-400">Wi-Fi 6</td>
+                                <td class="p-4 font-mono font-bold text-sky-300">802.11ax</td>
+                                <td class="p-4">2019</td>
+                                <td class="p-4"><span class="px-2 py-1 rounded bg-purple-500/10 text-purple-300 text-xs">2.4 / 5 / 6 GHz</span></td>
+                                <td class="p-4">9.6 Gbps</td>
+                                <td class="p-4">Up to 160 MHz</td>
+                                <td class="p-4 text-xs">OFDMA, 1024-QAM, Target Wake Time</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Interactive Propagation Simulator -->
+            <div class="bg-slate-800/80 rounded-2xl border border-slate-700 p-6 shadow-xl">
+                <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-wave-square text-sky-400"></i> Simulator Penetrasi Frekuensi (2.4 GHz vs 5 GHz)
+                        </h3>
+                        <p class="text-xs text-slate-400">Pelajari perbedaan daya jangkau dan penetrasi sinyal terhadap dinding penghalang.</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-slate-900 p-1.5 rounded-xl border border-slate-700">
+                        <button id="btnFreq24" onclick="setSimFreq(2.4)" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-sky-600 text-white transition">2.4 GHz (Jangkauan Luas)</button>
+                        <button id="btnFreq50" onclick="setSimFreq(5.0)" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">5.0 GHz (Speed Tinggi)</button>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-8 bg-slate-950 rounded-xl border border-slate-800 p-4 relative overflow-hidden h-64 flex items-center justify-center">
+                        <canvas id="propCanvas" class="w-full h-full block"></canvas>
+                    </div>
+
+                    <div class="lg:col-span-4 space-y-4">
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                            <div class="flex justify-between text-xs">
+                                <span class="text-slate-400">Penghalang Dinding Tembok:</span>
+                                <span id="wallCountLabel" class="text-sky-400 font-bold">2 Dinding</span>
+                            </div>
+                            <input type="range" id="wallSlider" min="0" max="4" value="2" oninput="updateWalls(this.value)" class="w-full accent-sky-500 cursor-pointer">
+                            
+                            <div class="space-y-2 pt-2 text-xs border-t border-slate-800">
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Sinyal Diterima:</span>
+                                    <span id="signalLevelText" class="font-bold text-emerald-400">78% (Bagus)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Estimasi Throughput:</span>
+                                    <span id="throughputText" class="font-bold text-sky-400">144 Mbps</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="simAnalysisBox" class="p-3 rounded-xl bg-sky-950/40 border border-sky-800/50 text-xs text-sky-200 leading-relaxed">
+                            <strong>Analisis TKJ:</strong> Frekuensi 2.4 GHz memiliki gelombang lebih panjang, sehingga lebih ampuh menembus objek padat (dinding), namun lebih rentan interferensi perangkat lain (microwave, bluetooth).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION B: Perangkat Wireless & Antena -->
+        <section id="perangkat" class="scroll-mt-20">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-indigo-500/10 text-indigo-400 rounded-xl border border-indigo-500/20">
+                    <i class="fa-solid fa-tower-cell text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-white">b. Perangkat Wireless & Antena</h2>
+                    <p class="text-slate-400 text-sm">Fungsi perangkat utama (Access Point vs Router) serta jenis antena directional vs omnidirectional.</p>
+                </div>
+            </div>
+
+            <!-- AP vs Wireless Router -->
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-slate-800/60 p-6 rounded-2xl border border-slate-700/60 hover:border-sky-500/50 transition">
+                    <div class="w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-ethernet"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Access Point (AP) Standalone</h3>
+                    <p class="text-slate-300 text-sm mb-4">
+                        Perangkat Layer 2 (Data Link) yang berfungsi seperti hub nirkabel. Menghubungkan client nirkabel ke jaringan kabel LAN lokal. Tidak melakukan fungsi routing, NAT, atau DHCP Server secara mandiri.
+                    </p>
+                    <ul class="text-xs text-slate-400 space-y-1.5 list-disc pl-4">
+                        <li>Fokus pada coverage & roaming skala besar (kantor/sekolah).</li>
+                        <li>Membutuhkan Router terpisah untuk pembagian IP Address.</li>
+                        <li>Mendukung PoE (Power over Ethernet).</li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-800/60 p-6 rounded-2xl border border-slate-700/60 hover:border-indigo-500/50 transition">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-router"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Wireless Router / Broadband Router</h3>
+                    <p class="text-slate-300 text-sm mb-4">
+                        Perangkat multifungsi gabungan antara **Router (Layer 3)**, **Switch 4-Port**, **Access Point**, serta **DHCP & Firewall/NAT Server**.
+                    </p>
+                    <ul class="text-xs text-slate-400 space-y-1.5 list-disc pl-4">
+                        <li>Cocok untuk jaringan SOHO (Small Office / Home Office).</li>
+                        <li>Memiliki Port WAN (Internet) dan LAN.</li>
+                        <li>Menyediakan fitur Bandwidth Limiter & Parental Control.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Antenna Interactive Selector -->
+            <div class="bg-slate-800/60 rounded-2xl border border-slate-700/60 p-6 shadow-xl">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-broadcast-tower text-indigo-400"></i> Klasifikasi Antena Nirkabel
+                </h3>
+
+                <div class="grid md:grid-cols-3 gap-4">
+                    <!-- Omni -->
+                    <div onclick="selectAntenna('omni')" id="card-omni" class="cursor-pointer bg-slate-900/80 p-5 rounded-xl border-2 border-sky-500 transition hover:bg-slate-900">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold px-2.5 py-1 bg-sky-500/20 text-sky-400 rounded-md">Omnidirectional</span>
+                            <i class="fa-solid fa-arrows-spin text-sky-400"></i>
+                        </div>
+                        <h4 class="font-bold text-white text-base">Antena Omni (360°)</h4>
+                        <p class="text-xs text-slate-400 mt-2">Pancaran sinyal menyebar ke segala arah secara horizontal. Cocok untuk indoor AP & area terpusat.</p>
+                        <div class="mt-4 pt-3 border-t border-slate-800 text-xs font-mono text-slate-300">
+                            Gain: 3 - 15 dBi<br>Jangkauan: Point-to-Multipoint (P2MP)
+                        </div>
+                    </div>
+
+                    <!-- Semi-Dir -->
+                    <div onclick="selectAntenna('semi')" id="card-semi" class="cursor-pointer bg-slate-900/80 p-5 rounded-xl border-2 border-slate-800 hover:border-indigo-500/50 transition">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold px-2.5 py-1 bg-indigo-500/20 text-indigo-400 rounded-md">Semi-Directional</span>
+                            <i class="fa-solid fa-fan text-indigo-400"></i>
+                        </div>
+                        <h4 class="font-bold text-white text-base">Sectoral / Patch / Panel</h4>
+                        <p class="text-xs text-slate-400 mt-2">Pancaran sinyal memancar ke sudut tertentu (misal 60°, 90°, atau 120°). Biasa terpasang di tower BTS/WISP.</p>
+                        <div class="mt-4 pt-3 border-t border-slate-800 text-xs font-mono text-slate-300">
+                            Gain: 12 - 20 dBi<br>Jangkauan: Cakupan Sektor Spesifik
+                        </div>
+                    </div>
+
+                    <!-- Grid / Dish -->
+                    <div onclick="selectAntenna('directional')" id="card-directional" class="cursor-pointer bg-slate-900/80 p-5 rounded-xl border-2 border-slate-800 hover:border-purple-500/50 transition">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold px-2.5 py-1 bg-purple-500/20 text-purple-400 rounded-md">Directional</span>
+                            <i class="fa-solid fa-arrow-trend-up text-purple-400"></i>
+                        </div>
+                        <h4 class="font-bold text-white text-base">Grid / Dish / Yagi</h4>
+                        <p class="text-xs text-slate-400 mt-2">Fokus sinyal sangat sempit namun berjarak sangat jauh. Sangat cocok untuk koneksi tembak antar gedung (PtP).</p>
+                        <div class="mt-4 pt-3 border-t border-slate-800 text-xs font-mono text-slate-300">
+                            Gain: 20 - 30+ dBi<br>Jangkauan: Point-to-Point (PTP) Jarak Jauh
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Antenna Signal Pattern Simulator -->
+                <div class="mt-6 bg-slate-950 p-4 sm:p-5 rounded-xl border border-slate-800 grid lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-7 h-72 relative flex items-center justify-center bg-slate-900/90 rounded-xl overflow-hidden border border-slate-800">
+                        <canvas id="antennaCanvas" class="w-full h-full block"></canvas>
+                        <div class="absolute top-3 left-3 px-2.5 py-1 bg-slate-950/80 backdrop-blur-sm rounded-md border border-slate-700 text-[11px] font-mono text-sky-400 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
+                            Visualisasi Pola Radiasi Sinyal (Top-Down Azimuth)
+                        </div>
+                        <div class="absolute bottom-3 right-3 text-[10px] font-mono text-slate-400 bg-slate-950/80 px-2 py-0.5 rounded border border-slate-800">
+                            Klik kartu antena di atas untuk mengubah mode
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span id="antennaBadge" class="px-2.5 py-0.5 rounded text-xs font-bold bg-sky-500/20 text-sky-400 border border-sky-500/30">Omnidirectional</span>
+                            <span class="text-xs text-slate-400 font-mono">Pola 2D Horizontal</span>
+                        </div>
+                        <h4 id="antennaTitle" class="font-bold text-white text-base">Antena Omnidirectional (360°)</h4>
+                        <p id="antennaDesc" class="text-xs text-slate-300 leading-relaxed">
+                            Memancarkan sinyal gelombang radio secara seragam ke segala arah secara horizontal (360 derajat), membentuk pola menyerupai kue donat.
+                        </p>
+                        
+                        <div class="space-y-2 text-xs bg-slate-900 p-3 rounded-lg border border-slate-800 font-mono">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Sudut Pancar (Beamwidth):</span>
+                                <span id="antennaBeam" class="text-sky-400 font-bold">360° Horizontal</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Cakupan Jangkauan:</span>
+                                <span id="antennaRange" class="text-emerald-400 font-bold">Area Sekitar AP (~100m)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Tipe Koneksi:</span>
+                                <span id="antennaUsage" class="text-indigo-400 font-bold">Point-to-Multipoint (P2MP)</span>
+                            </div>
+                        </div>
+
+                        <div id="antennaDetailBox" class="p-3 rounded-xl bg-sky-950/40 border border-sky-800/50 text-xs text-sky-200 leading-relaxed">
+                            <strong class="text-sky-400">Tips Pemasangan TKJ:</strong> Pasang antena omni di posisi tengah ruangan / ceiling gedung untuk pemerataan sinyal ke seluruh perangkat client.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION C: Konfigurasi Dasar Wireless Network -->
+        <section id="simulasi-konfig" class="scroll-mt-20">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20">
+                    <i class="fa-solid fa-sliders text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-white">c. Lab Interaktif: Konfigurasi Wireless Router</h2>
+                    <p class="text-slate-400 text-sm">Praktikkan penyetelan SSID, Security WPA2/WPA3, DHCP Server & Channel secara virtual.</p>
+                </div>
+            </div>
+
+            <!-- Virtual Router Web Interface UI -->
+            <div class="bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden shadow-2xl">
+                <!-- Browser Header Bar -->
+                <div class="bg-slate-900 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                        <span class="ml-4 text-xs font-mono text-slate-400">http://192.168.1.1/admin_panel</span>
+                    </div>
+                    <span class="text-xs bg-slate-800 text-emerald-400 px-3 py-1 rounded-full font-mono border border-slate-700">Status Router: ONLINE</span>
+                </div>
+
+                <div class="grid lg:grid-cols-12 min-h-[420px]">
+                    <!-- Sidebar Menu Router -->
+                    <div class="lg:col-span-3 bg-slate-900/60 border-r border-slate-800 p-3 space-y-1">
+                        <button onclick="showRouterTab('wireless')" id="tabBtn-wireless" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold bg-sky-600 text-white flex items-center gap-2">
+                            <i class="fa-solid fa-wifi w-4"></i> Pengaturan Wireless
+                        </button>
+                        <button onclick="showRouterTab('security')" id="tabBtn-security" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-lock w-4"></i> Keamanan (Security)
+                        </button>
+                        <button onclick="showRouterTab('dhcp')" id="tabBtn-dhcp" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-network-wired w-4"></i> DHCP Server
+                        </button>
+                        <button onclick="showRouterTab('status')" id="tabBtn-status" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-chart-line w-4"></i> Status Client
+                        </button>
+                    </div>
+
+                    <!-- Config Form Panel -->
+                    <div class="lg:col-span-9 p-6 bg-slate-950 flex flex-col justify-between">
+                        
+                        <!-- TAB 1: Wireless Settings -->
+                        <div id="routerTab-wireless" class="space-y-5">
+                            <h4 class="text-sm font-bold text-sky-400 uppercase tracking-wider pb-2 border-b border-slate-800">Basic Wireless Settings</h4>
+                            <div class="grid md:grid-cols-2 gap-4 text-xs">
+                                <div>
+                                    <label class="block text-slate-300 font-medium mb-1">Nama Wi-Fi (SSID):</label>
+                                    <input type="text" id="cfgSsid" value="TKJ_LAB_LABORATORIUM" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono focus:border-sky-500 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-slate-300 font-medium mb-1">Mode Wireless:</label>
+                                    <select id="cfgMode" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-sky-500 focus:outline-none">
+                                        <option>802.11b/g/n Mixed</option>
+                                        <option>802.11ac Only</option>
+                                        <option>802.11ax (Wi-Fi 6) Hybrid</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-slate-300 font-medium mb-1">Channel Frequency:</label>
+                                    <select id="cfgChannel" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-sky-500 focus:outline-none">
+                                        <option value="1">Channel 1 - 2.412 GHz</option>
+                                        <option value="6" selected>Channel 6 - 2.437 GHz (Direkomendasikan)</option>
+                                        <option value="11">Channel 11 - 2.462 GHz</option>
+                                        <option value="36">Channel 36 - 5.180 GHz</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-slate-300 font-medium mb-1">Channel Width:</label>
+                                    <select id="cfgWidth" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-sky-500 focus:outline-none">
+                                        <option>20 MHz (Paling Stabil)</option>
+                                        <option selected>20/40 MHz Auto</option>
+                                        <option>80 MHz</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="cfgHideSsid" class="rounded bg-slate-900 border-slate-700 text-sky-500 focus:ring-0">
+                                <label for="cfgHideSsid" class="text-xs text-slate-300">Sembunyikan SSID (Hide SSID / Non-broadcast)</label>
+                            </div>
+                        </div>
+
+                        <!-- TAB 2: Security Settings -->
+                        <div id="routerTab-security" class="hidden space-y-5">
+                            <h4 class="text-sm font-bold text-sky-400 uppercase tracking-wider pb-2 border-b border-slate-800">Wireless Security Settings</h4>
+                            <div class="grid md:grid-cols-2 gap-4 text-xs">
+                                <div>
+                                    <label class="block text-slate-300 font-medium mb-1">Mode Keamanan:</label>
+                                    <select id="cfgSecurityType" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-sky-500 focus:outline-none">
+                                        <option value="WPA2-PSK">WPA2-PSK (AES) - Standar Personal</option>
+                                        <option value="WPA3-SAE">WPA3-SAE (Keamanan Tinggi)</option>
+                                        <option value="OPEN">Disable Security (Open Network - Berbahaya)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-slate-300 font-medium mb-1">Password Wi-Fi (Pre-Shared Key):</label>
+                                    <input type="password" id="cfgPassword" value="tkjjuara2026" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono focus:border-sky-500 focus:outline-none">
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-400">Aturan Keamanan TKJ: Gunakan minimal 8 karakter dengan kombinasi huruf besar, kecil, angka, dan simbol.</p>
+                        </div>
+
+                        <!-- TAB 3: DHCP Settings -->
+                        <div id="routerTab-dhcp" class="hidden space-y-5">
+                            <h4 class="text-sm font-bold text-sky-400 uppercase tracking-wider pb-2 border-b border-slate-800">DHCP Server Configuration</h4>
+                            <div class="grid md:grid-cols-2 gap-4 text-xs">
+                                <div>
+                                    <label class="block text-slate-300 font-medium mb-1">IP Router (Gateway):</label>
+                                    <input type="text" id="cfgGateway" value="192.168.1.1" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono">
+                                </div>
+                                <div>
+                                    <label class="block text-slate-300 font-medium mb-1">Subnet Mask:</label>
+                                    <input type="text" value="255.255.255.0 (/24)" disabled class="w-full bg-slate-900 border border-slate-800 text-slate-500 rounded-lg px-3 py-2 font-mono">
+                                </div>
+                                <div>
+                                    <label class="block text-slate-300 font-medium mb-1">Start IP Address:</label>
+                                    <input type="text" id="cfgDhcpStart" value="192.168.1.10" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono">
+                                </div>
+                                <div>
+                                    <label class="block text-slate-300 font-medium mb-1">End IP Address:</label>
+                                    <input type="text" id="cfgDhcpEnd" value="192.168.1.100" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 4: Status Monitor -->
+                        <div id="routerTab-status" class="hidden space-y-4">
+                            <h4 class="text-sm font-bold text-sky-400 uppercase tracking-wider pb-2 border-b border-slate-800">Tabel Client Terhubung (Lease List)</h4>
+                            <div class="overflow-x-auto text-xs">
+                                <table class="w-full text-left text-slate-300">
+                                    <thead class="bg-slate-900 text-slate-400 font-semibold border-b border-slate-800">
+                                        <tr>
+                                            <th class="p-2">Device Name</th>
+                                            <th class="p-2">MAC Address</th>
+                                            <th class="p-2">IP Address</th>
+                                            <th class="p-2">Signal Strength</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="clientTableBody" class="divide-y divide-slate-800/60 font-mono">
+                                        <!-- Populated via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Control Bar -->
+                        <div class="pt-4 border-t border-slate-800 flex items-center justify-between mt-auto">
+                            <div id="cfgFeedback" class="text-xs font-semibold text-emerald-400 hidden flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-check"></i> Pengaturan Berhasil Disimpan ke NVRAM!
+                            </div>
+                            <button onclick="applyRouterConfig()" class="ml-auto px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition shadow-lg shadow-emerald-600/20">
+                                <i class="fa-solid fa-floppy-disk mr-1"></i> Simpan & Terapkan (Apply)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wi-Fi Analyzer Channel Spectrum Visualizer -->
+            <div class="mt-8 bg-slate-800/60 rounded-2xl border border-slate-700/60 p-6">
+                <div class="flex flex-col md:flex-row justify-between md:items-center gap-2 mb-4">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-chart-area text-sky-400"></i> Visualisasi Spektrum Kanal Wi-Fi 2.4 GHz (Wi-Fi Analyzer)
+                    </h3>
+                    <span class="text-xs text-slate-400">Kanal non-overlapping ideal di 2.4 GHz adalah: <strong>1, 6, dan 11</strong></span>
+                </div>
+                <div class="h-52 w-full">
+                    <canvas id="wifiChannelChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION D: Troubleshooting & Perawatan Jaringan -->
+        <section id="troubleshooting" class="scroll-mt-20">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-rose-500/10 text-rose-400 rounded-xl border border-rose-500/20">
+                    <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-white">d. Perawatan & Troubleshooting Jaringan</h2>
+                    <p class="text-slate-400 text-sm">Metodologi diagnosa kerusakan fisik (kabel/hardware) vs kerusakan logis (konfigurasi IP/SSID).</p>
+                </div>
+            </div>
+
+            <!-- Perawatan Preventive Table -->
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-slate-800/60 p-5 rounded-2xl border border-slate-700/60 space-y-3">
+                    <h3 class="text-base font-bold text-amber-400 flex items-center gap-2">
+                        <i class="fa-solid fa-shield-halved"></i> Perawatan Preventif (Pencegahan)
+                    </h3>
+                    <ul class="text-xs text-slate-300 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check-circle text-amber-400 mt-0.5"></i>
+                            <span><strong>Pembersihan Debu Fisik:</strong> Rutin membersihkan ventilasi Access Point dari debu agar tidak *overheating*.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check-circle text-amber-400 mt-0.5"></i>
+                            <span><strong>Update Firmware:</strong> Memperbarui versi OS/firmware router secara berkala untuk menutupi *security vulnerability*.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check-circle text-amber-400 mt-0.5"></i>
+                            <span><strong>Backup Konfigurasi:</strong> Mengekspor file konfigurasi (.backup/.cfg) router secara tertib.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-800/60 p-5 rounded-2xl border border-slate-700/60 space-y-3">
+                    <h3 class="text-base font-bold text-rose-400 flex items-center gap-2">
+                        <i class="fa-solid fa-wrench"></i> Troubleshooting Korektif (Perbaikan)
+                    </h3>
+                    <ul class="text-xs text-slate-300 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-right text-rose-400 mt-0.5"></i>
+                            <span><strong>Layer 1 (Fisik):</strong> Cek indikator lampu LED LAN/PoE, kualitas crimping RJ45 dengan LAN Tester, dan adaptor daya.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-right text-rose-400 mt-0.5"></i>
+                            <span><strong>Layer 2 (Data Link):</strong> Periksa kesesuaian Password WPA2/WPA3, Hiding SSID, serta sertifikat autentikasi.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-right text-rose-400 mt-0.5"></i>
+                            <span><strong>Layer 3 (Network):</strong> Pengecekan IP Conflict, subnetting, ketersediaan alokasi IP DHCP, serta tes `ping`.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Interactive Troubleshooting CLI Terminal Simulator -->
+            <div class="bg-slate-950 rounded-2xl border border-slate-800 p-6 shadow-2xl space-y-4">
+                <div class="flex flex-col md:flex-row justify-between md:items-center gap-2 border-b border-slate-800 pb-4">
+                    <div>
+                        <span class="text-xs font-bold text-rose-400 uppercase tracking-wider">Simulasi Studi Kasus Kerusakan</span>
+                        <h3 class="text-lg font-bold text-white">Interactive Network Diagnostic CLI</h3>
+                    </div>
+                    <button onclick="generateRandomTroubleCase()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 transition">
+                        <i class="fa-solid fa-shuffle text-sky-400"></i> Acak Kasus Kerusakan Baru
+                    </button>
+                </div>
+
+                <div id="troubleScenarioDescription" class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 leading-relaxed">
+                    <!-- Scenario text injected by JS -->
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-6">
+                    <!-- Status LED Hardware -->
+                    <div class="lg:col-span-4 bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase">Indikator Fisik Perangkat</h4>
+                        
+                        <div class="flex items-center justify-between text-xs p-2 bg-slate-950 rounded-lg">
+                            <span>Power LED:</span>
+                            <span id="ledPower" class="w-3 h-3 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50"></span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs p-2 bg-slate-950 rounded-lg">
+                            <span>LAN / Ethernet Cable:</span>
+                            <span id="ledLan" class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs p-2 bg-slate-950 rounded-lg">
+                            <span>Wi-Fi Signal Broadcast:</span>
+                            <span id="ledWifi" class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs p-2 bg-slate-950 rounded-lg">
+                            <span>Internet Status:</span>
+                            <span id="ledInternet" class="w-3 h-3 rounded-full bg-rose-500"></span>
+                        </div>
+                    </div>
+
+                    <!-- Interactive CLI Shell -->
+                    <div class="lg:col-span-8 bg-slate-900 rounded-xl border border-slate-800 overflow-hidden flex flex-col h-64">
+                        <div class="bg-slate-950 px-4 py-2 border-b border-slate-800 text-xs text-slate-400 font-mono flex justify-between">
+                            <span>Command Prompt (CMD) - Administrator</span>
+                            <span>IPv4 Simulator</span>
+                        </div>
+                        <div id="cliOutput" class="p-3 font-mono text-xs text-emerald-400 overflow-y-auto flex-grow space-y-1.5 custom-scrollbar">
+                            <p class="text-slate-400">Microsoft Windows [Version 10.0.19045]</p>
+                            <p class="text-slate-400">Ketik command untuk mendiagnosa: <span class="text-sky-300">ipconfig</span>, <span class="text-sky-300">ping 192.168.1.1</span>, <span class="text-sky-300">ping 8.8.8.8</span>, atau <span class="text-sky-300">fix</span></p>
+                        </div>
+                        <form onsubmit="handleCliSubmit(event)" class="bg-slate-950 p-2 border-t border-slate-800 flex items-center gap-2">
+                            <span class="text-xs font-mono text-sky-400 pl-2">C:\Users\TKJ&gt;</span>
+                            <input type="text" id="cliInput" placeholder="Ketik perintah di sini..." class="w-full bg-transparent text-xs font-mono text-white focus:outline-none">
+                            <button type="submit" class="px-3 py-1 bg-sky-600 hover:bg-sky-500 text-white rounded text-xs font-semibold">Run</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION E: LKPD (Lembar Kerja Peserta Didik) -->
+        <section id="lkpd" class="scroll-mt-20">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-purple-500/10 text-purple-400 rounded-xl border border-purple-500/20">
+                    <i class="fa-solid fa-file-pen text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-white">LKPD Interaktif (Lembar Kerja Peserta Didik)</h2>
+                    <p class="text-slate-400 text-sm">Evaluasi mandiri teori, tugas praktikum laboratorium, dan penilaian otomatis.</p>
+                </div>
+            </div>
+
+            <!-- Tab Switching for LKPD -->
+            <div class="bg-slate-800/60 rounded-2xl border border-slate-700/60 p-6 shadow-xl space-y-6">
+                <div class="flex border-b border-slate-700 gap-4 text-sm font-semibold">
+                    <button onclick="switchLkpdTab('teori')" id="lkpdTabBtnTeori" class="pb-3 border-b-2 border-sky-400 text-sky-400 transition">
+                        <i class="fa-solid fa-list-check mr-1"></i> LKPD 1: Latihan Teori & Kuis
+                    </button>
+                    <button onclick="switchLkpdTab('praktik')" id="lkpdTabBtnPraktik" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-white transition">
+                        <i class="fa-solid fa-laptop-code mr-1"></i> LKPD 2: Panduan Unjuk Kerja Praktikum
+                    </button>
+                </div>
+
+                <!-- LKPD TEORI PANEL -->
+                <div id="lkpdPanelTeori" class="space-y-6">
+                    <form id="quizForm" onsubmit="evaluateQuiz(event)" class="space-y-6">
+                        <!-- Identitas Siswa -->
+                        <div class="grid sm:grid-cols-2 gap-4 bg-slate-900/80 p-4 rounded-xl border border-slate-700">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-300 mb-1">Nama Lengkap Siswa:</label>
+                                <input type="text" id="studentName" required placeholder="Contoh: Ahmad TKJ 1" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-300 mb-1">Kelas / Kelompok:</label>
+                                <input type="text" id="studentClass" required placeholder="XI TKJ 2" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500">
+                            </div>
+                        </div>
+
+                        <!-- Question 1 -->
+                        <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800 space-y-2">
+                            <p class="text-sm font-semibold text-white">1. Standar Wi-Fi yang bekerja pada dua frekuensi sekaligus (2.4 GHz dan 5 GHz) serta mampu mencapai kecepatan teoritis hingga 600 Mbps adalah...</p>
+                            <div class="space-y-1.5 text-xs text-slate-300 pl-2">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q1" value="A" class="accent-sky-500"> A. IEEE 802.11a
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q1" value="B" class="accent-sky-500"> B. IEEE 802.11b
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q1" value="C" class="accent-sky-500"> C. IEEE 802.11n (Wi-Fi 4)
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q1" value="D" class="accent-sky-500"> D. IEEE 802.11ac (Wi-Fi 5)
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Question 2 -->
+                        <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800 space-y-2">
+                            <p class="text-sm font-semibold text-white">2. Apabila Anda ingin menghubungkan dua gedung sekolah yang berjarak 2 Kilometer secara nirkabel (Point-to-Point), jenis antena outdoor yang paling tepat digunakan adalah...</p>
+                            <div class="space-y-1.5 text-xs text-slate-300 pl-2">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q2" value="A" class="accent-sky-500"> A. Antena Omnidirectional Rubber Duck
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q2" value="B" class="accent-sky-500"> B. Antena Directional Grid / Parabolik Dish
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q2" value="C" class="accent-sky-500"> C. Antena Ceiling Mount Indoor
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q2" value="D" class="accent-sky-500"> D. Antena Dipole
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Question 3 -->
+                        <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800 space-y-2">
+                            <p class="text-sm font-semibold text-white">3. Mengapa pemilihan kanal (channel) 1, 6, dan 11 dianjurkan pada pengaturan frekuensi 2.4 GHz?</p>
+                            <div class="space-y-1.5 text-xs text-slate-300 pl-2">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q3" value="A" class="accent-sky-500"> A. Karena kanal tersebut merupakan kanal tercepat di dunia.
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q3" value="B" class="accent-sky-500"> B. Karena ketiga kanal tersebut tidak saling tumpang tindih (non-overlapping).
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q3" value="C" class="accent-sky-500"> C. Karena kanal lain diblokir oleh pemerintah.
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q3" value="D" class="accent-sky-500"> D. Karena frekuensinya otomatis meningkat menjadi 5 GHz.
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Question 4 -->
+                        <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800 space-y-2">
+                            <p class="text-sm font-semibold text-white">4. Perintah command prompt yang digunakan untuk memeriksa alamat IP, Subnet Mask, dan Default Gateway pada PC Client Windows adalah...</p>
+                            <div class="space-y-1.5 text-xs text-slate-300 pl-2">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q4" value="A" class="accent-sky-500"> A. ping 127.0.0.1
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q4" value="B" class="accent-sky-500"> B. traceroute
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q4" value="C" class="accent-sky-500"> C. ipconfig
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="q4" value="D" class="accent-sky-500"> D. netstat -a
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 pt-2">
+                            <button type="submit" class="px-6 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition shadow-lg shadow-purple-600/30">
+                                <i class="fa-solid fa-paper-plane mr-1"></i> Submit & Hitung Nilai
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Quiz Result Box -->
+                    <div id="quizResult" class="hidden p-5 rounded-xl bg-slate-900 border border-purple-500/50 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-purple-300 text-base">Hasil Evaluasi LKPD Teori</h4>
+                            <span id="scoreBadge" class="px-3 py-1 bg-purple-500/20 text-purple-300 font-bold rounded-lg text-sm">Nilai: 0 / 100</span>
+                        </div>
+                        <p id="quizSummaryText" class="text-xs text-slate-300 leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <!-- LKPD PRAKTIK PANEL -->
+                <div id="lkpdPanelPraktik" class="hidden space-y-6">
+                    <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-4">
+                        <div class="border-b border-slate-800 pb-3">
+                            <span class="text-xs font-bold text-sky-400 uppercase">Lembar Kerja Praktikum LAB TKJ</span>
+                            <h3 class="text-base font-bold text-white">Topik: Konfigurasi Access Point & Analisis Interferensi Sinyal</h3>
+                        </div>
+
+                        <div class="space-y-3 text-xs text-slate-300">
+                            <h4 class="font-bold text-slate-200 text-sm">A. Alat dan Bahan:</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-slate-400">
+                                <li>1 Unit Wireless Router / Access Point (TP-Link / MikroTik / Cisco)</li>
+                                <li>2 Unit Kabel UTP Patch Cord Straight-through</li>
+                                <li>1 Unit Laptop / PC Client</li>
+                                <li>Aplikasi Wi-Fi Analyzer (Smartphone / PC)</li>
+                            </ul>
+
+                            <h4 class="font-bold text-slate-200 text-sm pt-2">B. Langkah Kerja:</h4>
+                            <ol class="list-decimal pl-5 space-y-2 text-slate-300">
+                                <li>Hubungkan port LAN PC ke port LAN Access Point menggunakan kabel UTP.</li>
+                                <li>Atur IP PC Client satu subnet dengan IP default Access Point (misal: 192.168.1.2).</li>
+                                <li>Buka web browser dan akses IP Web GUI Router (<code class="text-sky-300 font-mono">192.168.1.1</code>).</li>
+                                <li>Konfigurasikan **SSID** dengan format <code class="text-sky-300 font-mono">TKJ_NAMA_SISWA</code>.</li>
+                                <li>Aktifkan enkripsi **WPA2-PSK** dan tentukan password minimal 8 karakter.</li>
+                                <li>Aktifkan **DHCP Server** dengan range IP 192.168.1.10 - 192.168.1.50.</li>
+                                <li>Uji koneksi nirkabel menggunakan Smartphone/PC lain dan lakukan perintah <code class="text-sky-300 font-mono">ping 192.168.1.1</code>.</li>
+                            </ol>
+                        </div>
+
+                        <!-- Check List Praktikum -->
+                        <div class="pt-4 border-t border-slate-800 space-y-3">
+                            <h4 class="font-bold text-slate-200 text-sm">C. Checklist Mandiri Unjuk Kerja:</h4>
+                            <div class="grid sm:grid-cols-2 gap-2 text-xs text-slate-300">
+                                <label class="flex items-center gap-2 p-2 bg-slate-950 rounded border border-slate-800">
+                                    <input type="checkbox" class="accent-sky-500"> Fisik Kabel & LED Menyala
+                                </label>
+                                <label class="flex items-center gap-2 p-2 bg-slate-950 rounded border border-slate-800">
+                                    <input type="checkbox" class="accent-sky-500"> Terhubung ke Web Management AP
+                                </label>
+                                <label class="flex items-center gap-2 p-2 bg-slate-950 rounded border border-slate-800">
+                                    <input type="checkbox" class="accent-sky-500"> SSID Terdeteksi di HP/Client
+                                </label>
+                                <label class="flex items-center gap-2 p-2 bg-slate-950 rounded border border-slate-800">
+                                    <input type="checkbox" class="accent-sky-500"> Client Mendapatkan IP DHCP
+                                </label>
+                                <label class="flex items-center gap-2 p-2 bg-slate-950 rounded border border-slate-800">
+                                    <input type="checkbox" class="accent-sky-500"> Ping Gateway Status Reply (0% Loss)
+                                </label>
+                                <label class="flex items-center gap-2 p-2 bg-slate-950 rounded border border-slate-800">
+                                    <input type="checkbox" class="accent-sky-500"> Hasil Analisis Sinyal RSSI &gt; -70dBm
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 flex justify-end">
+                            <button onclick="printPracticalReport()" class="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs transition flex items-center gap-2">
+                                <i class="fa-solid fa-print"></i> Cetak Lembar Praktikum
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-8 text-slate-400 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-graduation-cap text-sky-400 text-base"></i>
+                <span>Modul Pembelajaran Guru TKJ SMK &copy; 2026 - Konsentrasi Keahlian Teknik Komputer dan Jaringan</span>
+            </div>
+            <div class="flex gap-4 text-slate-500">
+                <a href="#standar" class="hover:text-slate-300">Teori</a>
+                <a href="#simulasi-konfig" class="hover:text-slate-300">Simulator</a>
+                <a href="#troubleshooting" class="hover:text-slate-300">Troubleshooting</a>
+                <a href="#lkpd" class="hover:text-slate-300">LKPD</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* Mobile Nav Toggle */
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+
+        /* ============================================================
+           1. SIMULATOR PENETRASI FREKUENSI (2.4 GHz vs 5 GHz Canvas)
+           ============================================================ */
+        let simFreq = 2.4;
+        let wallCount = 2;
+        let animationFrameId;
+
+        function setSimFreq(freq) {
+            simFreq = freq;
+            document.getElementById('btnFreq24').className = freq === 2.4 
+                ? 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-sky-600 text-white transition'
+                : 'px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition';
+            document.getElementById('btnFreq50').className = freq === 5.0 
+                ? 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white transition'
+                : 'px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition';
+            
+            updateSimCalculations();
+        }
+
+        function updateWalls(val) {
+            wallCount = parseInt(val);
+            document.getElementById('wallCountLabel').innerText = `${wallCount} Dinding`;
+            updateSimCalculations();
+        }
+
+        function updateSimCalculations() {
+            // Signal degradation calculation
+            let baseSignal = 100;
+            let wallPenalty = (simFreq === 2.4) ? 12 : 24; // 5GHz suffers more attenuation per wall
+            let finalSignal = Math.max(10, baseSignal - (wallCount * wallPenalty));
+            
+            let maxSpeed = (simFreq === 2.4) ? 300 : 1200; // Mbps
+            let finalSpeed = Math.round(maxSpeed * (finalSignal / 100));
+
+            const signalTxt = document.getElementById('signalLevelText');
+            signalTxt.innerText = `${finalSignal}% (${finalSignal > 70 ? 'Sangat Bagus' : finalSignal > 40 ? 'Sedang' : 'Lemah'})`;
+            signalTxt.className = finalSignal > 70 ? 'font-bold text-emerald-400' : finalSignal > 40 ? 'font-bold text-amber-400' : 'font-bold text-rose-400';
+
+            document.getElementById('throughputText').innerText = `${finalSpeed} Mbps`;
+
+            const box = document.getElementById('simAnalysisBox');
+            if (simFreq === 2.4) {
+                box.innerHTML = `<strong>Analisis TKJ (2.4 GHz):</strong> Gelombang lebih panjang (12.5 cm) mampu membelok dan menembus ${wallCount} dinding tembok dengan penurunan sinyal sebesar ~${wallCount * 12}%. Ideal untuk jangkauan luas.`;
+            } else {
+                box.innerHTML = `<strong>Analisis TKJ (5.0 GHz):</strong> Gelombang lebih pendek (6 cm) terserap cepat oleh ${wallCount} dinding tembok (redaman ~${wallCount * 24}%). Menawarkan kecepatan sangat tinggi pada ruangan tanpa halangan (*Line of Sight*).`;
+            }
+        }
+
+        // Canvas Wave Animation
+        const canvas = document.getElementById('propCanvas');
+        const ctx = canvas.getContext('2d');
+        let waveOffset = 0;
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function drawPropagation() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const apX = 60;
+            const apY = canvas.height / 2;
+
+            // Draw Access Point Tower Icon
+            ctx.fillStyle = '#0284c7';
+            ctx.beginPath();
+            ctx.arc(apX, apY, 14, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '10px FontAwesome';
+            ctx.fillText('AP', apX - 7, apY + 4);
+
+            // Draw Walls
+            const wallWidth = 10;
+            const startX = 140;
+            const spacing = (canvas.width - 220) / 4;
+
+            for (let i = 0; i < wallCount; i++) {
+                let wx = startX + i * spacing;
+                ctx.fillStyle = '#475569';
+                ctx.fillRect(wx, 20, wallWidth, canvas.height - 40);
+                ctx.strokeStyle = '#334155';
+                ctx.strokeRect(wx, 20, wallWidth, canvas.height - 40);
+            }
+
+            // Draw Waves
+            ctx.lineWidth = 2;
+            let freqFactor = (simFreq === 2.4) ? 0.03 : 0.08;
+            let speed = (simFreq === 2.4) ? 1.5 : 2.5;
+
+            waveOffset += speed;
+            if (waveOffset > 50) waveOffset = 0;
+
+            for (let x = apX + 20; x < canvas.width - 20; x += 3) {
+                // Determine attenuation based on how many walls wave passed
+                let passedWalls = 0;
+                for (let w = 0; w < wallCount; w++) {
+                    if (x > (startX + w * spacing)) passedWalls++;
+                }
+
+                let wallAtten = (simFreq === 2.4) ? (1 - passedWalls * 0.18) : (1 - passedWalls * 0.3);
+                wallAtten = Math.max(0.05, wallAtten);
+
+                let distanceAtten = Math.max(0.1, 1 - (x / canvas.width) * 0.5);
+                let amp = 25 * wallAtten * distanceAtten;
+
+                let y = apY + Math.sin((x - waveOffset) * freqFactor) * amp;
+
+                ctx.strokeStyle = simFreq === 2.4 ? `rgba(56, 189, 248, ${wallAtten})` : `rgba(129, 140, 248, ${wallAtten})`;
+                ctx.beginPath();
+                ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            requestAnimationFrame(drawPropagation);
+        }
+        drawPropagation();
+        updateSimCalculations();
+
+        /* ============================================================
+           2. ROUTER CONFIGURATION SIMULATOR LOGIC
+           ============================================================ */
+        let mockClients = [
+            { name: "Siswa-Laptop-01", mac: "A4:C3:F0:11:22:33", ip: "192.168.1.10", rssi: "-54 dBm" },
+            { name: "Smartphone-Android", mac: "70:85:C2:AA:BB:CC", ip: "192.168.1.11", rssi: "-62 dBm" },
+            { name: "Lab-Komputer-24", mac: "00:1E:67:88:99:00", ip: "192.168.1.12", rssi: "-48 dBm" }
+        ];
+
+        function showRouterTab(tabName) {
+            ['wireless', 'security', 'dhcp', 'status'].forEach(t => {
+                document.getElementById(`routerTab-${t}`).classList.add('hidden');
+                document.getElementById(`tabBtn-${t}`).className = 'w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white flex items-center gap-2';
+            });
+
+            document.getElementById(`routerTab-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tabBtn-${tabName}`).className = 'w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold bg-sky-600 text-white flex items-center gap-2';
+
+            if(tabName === 'status') {
+                renderClientTable();
+            }
+        }
+
+        function renderClientTable() {
+            const tbody = document.getElementById('clientTableBody');
+            tbody.innerHTML = '';
+            mockClients.forEach(c => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-900/50">
+                        <td class="p-2 font-sans font-semibold text-white">${c.name}</td>
+                        <td class="p-2 text-slate-400">${c.mac}</td>
+                        <td class="p-2 text-sky-400">${c.ip}</td>
+                        <td class="p-2 text-emerald-400">${c.rssi}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function applyRouterConfig() {
+            const feedback = document.getElementById('cfgFeedback');
+            feedback.classList.remove('hidden');
+            setTimeout(() => {
+                feedback.classList.add('hidden');
+            }, 3000);
+            updateWifiSpectrumChart();
+        }
+
+        /* Chart.js Wi-Fi Analyzer Spectrum Chart */
+        let wifiChart;
+        function initWifiSpectrumChart() {
+            const ctx = document.getElementById('wifiChannelChart').getContext('2d');
+            wifiChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Ch 1', 'Ch 2', 'Ch 3', 'Ch 4', 'Ch 5', 'Ch 6', 'Ch 7', 'Ch 8', 'Ch 9', 'Ch 10', 'Ch 11', 'Ch 12', 'Ch 13'],
+                    datasets: [
+                        {
+                            label: 'Wi-Fi Saya (TKJ_LAB)',
+                            data: [0, 0, 0, 0, 30, 85, 30, 0, 0, 0, 0, 0, 0],
+                            borderColor: '#38bdf8',
+                            backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Tetangga_Wifi_A',
+                            data: [80, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            borderColor: '#f43f5e',
+                            backgroundColor: 'rgba(244, 63, 94, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Kantin_Free_WiFi',
+                            data: [0, 0, 0, 0, 0, 0, 0, 0, 20, 70, 20, 0, 0],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: { display: true, text: 'Sinyal dBm / Quality (%)', color: '#94a3b8' },
+                            grid: { color: '#334155' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        x: {
+                            grid: { color: '#334155' },
+                            ticks: { color: '#94a3b8' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#e2e8f0', font: { size: 11 } } }
+                    }
+                }
+            });
+        }
+        initWifiSpectrumChart();
+
+        function updateWifiSpectrumChart() {
+            const ch = parseInt(document.getElementById('cfgChannel').value);
+            let newData = [0,0,0,0,0,0,0,0,0,0,0,0,0];
+            
+            // Generate bell curve around selected channel
+            if(ch >= 1 && ch <= 13) {
+                let idx = ch - 1;
+                newData[idx] = 90;
+                if(idx > 0) newData[idx-1] = 45;
+                if(idx > 1) newData[idx-2] = 10;
+                if(idx < 12) newData[idx+1] = 45;
+                if(idx < 11) newData[idx+2] = 10;
+            }
+
+            wifiChart.data.datasets[0].data = newData;
+            wifiChart.update();
+        }
+
+        /* ============================================================
+           3. TROUBLESHOOTING SIMULATOR & CLI ENGINE
+           ============================================================ */
+        const troubleCases = [
+            {
+                id: 1,
+                desc: "<strong>Kasus 1:</strong> Komputer Client tidak bisa mengakses internet. Lampu indikator Ethernet pada Access Point mati total.",
+                ledPower: "bg-emerald-500", ledLan: "bg-rose-500", ledWifi: "bg-emerald-500", ledInternet: "bg-rose-500",
+                correctCmd: "fix cable",
+                fixText: "Kabel LAN terlepas/putus! Anda telah memasang kembali kabel UTP dengan benar. Lampu LAN kembali hijau.",
+                ipData: "IP Address: 169.254.12.4 (APIPA - Kabel Terputus / Tidak dapat DHCP)"
+            },
+            {
+                id: 2,
+                desc: "<strong>Kasus 2:</strong> Kabel LAN terhubung normal, namun PC Client mendapatkan IP konflik / Salah Subnet Gateway.",
+                ledPower: "bg-emerald-500", ledLan: "bg-emerald-500", ledWifi: "bg-emerald-500", ledInternet: "bg-rose-500",
+                correctCmd: "ipconfig /renew",
+                fixText: "Berhasil meminta IP DHCP baru dari Router! IP baru: 192.168.1.45 Gateway: 192.168.1.1. Koneksi Pulih!",
+                ipData: "IP Address: 10.0.0.99 (Misconfigured Subnet)"
+            }
+        ];
+
+        let currentCaseIdx = 0;
+
+        function generateRandomTroubleCase() {
+            currentCaseIdx = (currentCaseIdx + 1) % troubleCases.length;
+            const c = troubleCases[currentCaseIdx];
+            
+            document.getElementById('troubleScenarioDescription').innerHTML = c.desc;
+            document.getElementById('ledPower').className = `w-3 h-3 rounded-full ${c.ledPower}`;
+            document.getElementById('ledLan').className = `w-3 h-3 rounded-full ${c.ledLan}`;
+            document.getElementById('ledWifi').className = `w-3 h-3 rounded-full ${c.ledWifi}`;
+            document.getElementById('ledInternet').className = `w-3 h-3 rounded-full ${c.ledInternet}`;
+
+            const cli = document.getElementById('cliOutput');
+            cli.innerHTML += `<p class="text-amber-400 mt-2">&gt; [SISTEM] Memuat Kasus Kerusakan Baru #${c.id}</p>`;
+            cli.scrollTop = cli.scrollHeight;
+        }
+        generateRandomTroubleCase();
+
+        function handleCliSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('cliInput');
+            const cmd = input.value.trim().toLowerCase();
+            const cli = document.getElementById('cliOutput');
+
+            if(!cmd) return;
+
+            cli.innerHTML += `<p class="text-white">&gt; ${input.value}</p>`;
+            
+            if(cmd === 'ipconfig') {
+                cli.innerHTML += `<p class="text-slate-300">${troubleCases[currentCaseIdx].ipData}<br>Subnet Mask: 255.255.255.0<br>Default Gateway: 192.168.1.1</p>`;
+            } else if(cmd.startsWith('ping 192.168.1.1')) {
+                if(troubleCases[currentCaseIdx].ledLan.includes('rose')) {
+                    cli.innerHTML += `<p class="text-rose-400">Request timed out.<br>Destination Host Unreachable. (Packet loss 100%)</p>`;
+                } else {
+                    cli.innerHTML += `<p class="text-emerald-400">Reply from 192.168.1.1: bytes=32 time=2ms TTL=64<br>Reply from 192.168.1.1: bytes=32 time=1ms TTL=64</p>`;
+                }
+            } else if(cmd.startsWith('ping 8.8.8.8')) {
+                if(troubleCases[currentCaseIdx].ledInternet.includes('rose')) {
+                    cli.innerHTML += `<p class="text-rose-400">Ping request could not find host 8.8.8.8. Check Internet connection.</p>`;
+                } else {
+                    cli.innerHTML += `<p class="text-emerald-400">Reply from 8.8.8.8: bytes=32 time=18ms TTL=118</p>`;
+                }
+            } else if(cmd === 'fix' || cmd === 'fix cable' || cmd === 'ipconfig /renew') {
+                cli.innerHTML += `<p class="text-sky-300 font-bold">&gt; [PERBAIKAN SOLUSI]: ${troubleCases[currentCaseIdx].fixText}</p>`;
+                // Repair LEDs
+                document.getElementById('ledLan').className = "w-3 h-3 rounded-full bg-emerald-500";
+                document.getElementById('ledInternet').className = "w-3 h-3 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50";
+            } else {
+                cli.innerHTML += `<p class="text-slate-500">'${cmd}' tidak dikenali. Coba: ipconfig, ping 192.168.1.1, ping 8.8.8.8, atau fix</p>`;
+            }
+
+            input.value = '';
+            cli.scrollTop = cli.scrollHeight;
+        }
+
+        /* Antena Selection Box helper */
+        let currentAntennaType = 'omni';
+        let antennaWaveOffset = 0;
+
+        function selectAntenna(type) {
+            currentAntennaType = type;
+            ['omni', 'semi', 'directional'].forEach(t => {
+                document.getElementById(`card-${t}`).className = 'cursor-pointer bg-slate-900/80 p-5 rounded-xl border-2 border-slate-800 hover:border-slate-700 transition';
+            });
+
+            const badge = document.getElementById('antennaBadge');
+            const title = document.getElementById('antennaTitle');
+            const desc = document.getElementById('antennaDesc');
+            const beam = document.getElementById('antennaBeam');
+            const range = document.getElementById('antennaRange');
+            const usage = document.getElementById('antennaUsage');
+            const detail = document.getElementById('antennaDetailBox');
+
+            if (type === 'omni') {
+                document.getElementById('card-omni').className = 'cursor-pointer bg-slate-900/80 p-5 rounded-xl border-2 border-sky-500 transition shadow-lg shadow-sky-500/10';
+                badge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-sky-500/20 text-sky-400 border border-sky-500/30';
+                badge.innerText = 'Omnidirectional';
+                title.innerText = 'Antena Omnidirectional (360°)';
+                desc.innerText = 'Memancarkan sinyal gelombang radio secara seragam ke segala arah secara horizontal (360 derajat), membentuk pola menyerupai kue donat.';
+                beam.innerText = '360° Horizontal';
+                range.innerText = 'Area Sekitar AP (~100m)';
+                usage.innerText = 'Point-to-Multipoint (P2MP)';
+                detail.innerHTML = '<strong class="text-sky-400">Tips Pemasangan TKJ:</strong> Pasang antena omni di posisi tengah ruangan / ceiling gedung untuk pemerataan sinyal ke seluruh perangkat client.';
+            } else if (type === 'semi') {
+                document.getElementById('card-semi').className = 'cursor-pointer bg-slate-900/80 p-5 rounded-xl border-2 border-indigo-500 transition shadow-lg shadow-indigo-500/10';
+                badge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-indigo-500/20 text-indigo-400 border border-indigo-500/30';
+                badge.innerText = 'Semi-Directional';
+                title.innerText = 'Antena Sektoral / Patch / Panel (60° - 120°)';
+                desc.innerText = 'Memfokuskan energi pancaran sinyal ke sudut wilayah tertentu. Sinyal lebih terarah dan memiliki jarak jangkau lebih jauh dibanding omni.';
+                beam.innerText = '60° / 90° / 120° Sektor';
+                range.innerText = 'Sedang - Jauh (~500m - 2km)';
+                usage.innerText = 'BTS WISP / Sektor Spesifik';
+                detail.innerHTML = '<strong class="text-indigo-400">Tips Pemasangan TKJ:</strong> Cocok terpasang pada sudut tembok luar ruangan atau tower BTS untuk melayani kelompok client di arah tertentu.';
+            } else if (type === 'directional') {
+                document.getElementById('card-directional').className = 'cursor-pointer bg-slate-900/80 p-5 rounded-xl border-2 border-purple-500 transition shadow-lg shadow-purple-500/10';
+                badge.className = 'px-2.5 py-0.5 rounded text-xs font-bold bg-purple-500/20 text-purple-400 border border-purple-500/30';
+                badge.innerText = 'Directional / Narrow';
+                title.innerText = 'Antena Grid / Parabolik Dish (Fokus Sempit)';
+                desc.innerText = 'Memusatkan energi sinyal ke satu garis lurus yang sangat sempit dengan gain sangat tinggi (dBi tinggi). Sangat ampuh menembak sinyal jarak jauh.';
+                beam.innerText = 'Fokus Sempit (10° - 25°)';
+                range.innerText = 'Sangat Jauh (5km - 20km+)';
+                usage.innerText = 'Point-to-Point (PTP) Inter-Building';
+                detail.innerHTML = '<strong class="text-purple-400">Tips Pemasangan TKJ:</strong> Wajib *Line of Sight* (LOS) tanpa halangan dan butuh ketepatan *pointing* derajat ketinggian & azimuth secara presisi.';
+            }
+        }
+
+        const antCanvas = document.getElementById('antennaCanvas');
+        const antCtx = antCanvas ? antCanvas.getContext('2d') : null;
+
+        function resizeAntennaCanvas() {
+            if (antCanvas && antCanvas.parentElement) {
+                antCanvas.width = antCanvas.parentElement.clientWidth;
+                antCanvas.height = antCanvas.parentElement.clientHeight;
+            }
+        }
+        window.addEventListener('resize', resizeAntennaCanvas);
+
+        function drawAntennaSignalPattern() {
+            if (!antCanvas || !antCtx) return;
+            antCtx.clearRect(0, 0, antCanvas.width, antCanvas.height);
+
+            const w = antCanvas.width;
+            const h = antCanvas.height;
+
+            // Draw radar grid lines
+            antCtx.strokeStyle = '#1e293b';
+            antCtx.lineWidth = 1;
+
+            // Concentric radar circles
+            let maxRadarR = Math.min(w, h) * 0.42;
+            for (let r = maxRadarR * 0.25; r <= maxRadarR; r += maxRadarR * 0.25) {
+                antCtx.beginPath();
+                antCtx.arc(w / 2, h / 2, r, 0, Math.PI * 2);
+                antCtx.stroke();
+            }
+
+            // Crosshairs
+            antCtx.beginPath();
+            antCtx.moveTo(w / 2 - maxRadarR, h / 2);
+            antCtx.lineTo(w / 2 + maxRadarR, h / 2);
+            antCtx.moveTo(w / 2, h / 2 - maxRadarR);
+            antCtx.lineTo(w / 2, h / 2 + maxRadarR);
+            antCtx.stroke();
+
+            // Animate wave offset
+            antennaWaveOffset = (antennaWaveOffset + 0.8) % 30;
+
+            if (currentAntennaType === 'omni') {
+                const cx = w / 2;
+                const cy = h / 2;
+
+                // Draw Omni 360 Expanding Waves
+                const maxR = maxRadarR;
+                for (let r = antennaWaveOffset; r < maxR; r += 30) {
+                    let alpha = 1 - (r / maxR);
+                    antCtx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
+                    antCtx.lineWidth = 2;
+                    antCtx.beginPath();
+                    antCtx.arc(cx, cy, r, 0, Math.PI * 2);
+                    antCtx.stroke();
+                }
+
+                // Radiation fill gradient
+                let grad = antCtx.createRadialGradient(cx, cy, 5, cx, cy, maxR * 0.8);
+                grad.addColorStop(0, 'rgba(56, 189, 248, 0.4)');
+                grad.addColorStop(1, 'rgba(56, 189, 248, 0.02)');
+                antCtx.fillStyle = grad;
+                antCtx.beginPath();
+                antCtx.arc(cx, cy, maxR * 0.8, 0, Math.PI * 2);
+                antCtx.fill();
+
+                // Antenna icon/dot at center
+                antCtx.fillStyle = '#0284c7';
+                antCtx.beginPath();
+                antCtx.arc(cx, cy, 8, 0, Math.PI * 2);
+                antCtx.fill();
+                antCtx.fillStyle = '#ffffff';
+                antCtx.font = 'bold 9px sans-serif';
+                antCtx.textAlign = 'center';
+                antCtx.textBaseline = 'middle';
+                antCtx.fillText('ANT', cx, cy);
+
+            } else if (currentAntennaType === 'semi') {
+                // Sectoral 90 Degree Fan Pattern
+                const cx = w * 0.25;
+                const cy = h / 2;
+                const maxR = w * 0.65;
+                const startAngle = -Math.PI / 4; // -45 deg
+                const endAngle = Math.PI / 4;   // +45 deg
+
+                for (let r = antennaWaveOffset; r < maxR; r += 30) {
+                    let alpha = 1 - (r / maxR);
+                    antCtx.strokeStyle = `rgba(129, 140, 248, ${alpha})`;
+                    antCtx.lineWidth = 2.5;
+                    antCtx.beginPath();
+                    antCtx.arc(cx, cy, r, startAngle, endAngle);
+                    antCtx.stroke();
+                }
+
+                // Sector area fill
+                antCtx.fillStyle = 'rgba(129, 140, 248, 0.15)';
+                antCtx.beginPath();
+                antCtx.moveTo(cx, cy);
+                antCtx.arc(cx, cy, maxR * 0.85, startAngle, endAngle);
+                antCtx.closePath();
+                antCtx.fill();
+
+                // Sector boundary lines
+                antCtx.strokeStyle = '#6366f1';
+                antCtx.lineWidth = 1.5;
+                antCtx.beginPath();
+                antCtx.moveTo(cx, cy);
+                antCtx.lineTo(cx + Math.cos(startAngle) * maxR * 0.85, cy + Math.sin(startAngle) * maxR * 0.85);
+                antCtx.moveTo(cx, cy);
+                antCtx.lineTo(cx + Math.cos(endAngle) * maxR * 0.85, cy + Math.sin(endAngle) * maxR * 0.85);
+                antCtx.stroke();
+
+                // Antenna Icon
+                antCtx.fillStyle = '#4f46e5';
+                antCtx.fillRect(cx - 10, cy - 12, 12, 24);
+                antCtx.fillStyle = '#ffffff';
+                antCtx.font = 'bold 8px sans-serif';
+                antCtx.textAlign = 'center';
+                antCtx.textBaseline = 'middle';
+                antCtx.fillText('SEC', cx - 4, cy);
+
+            } else if (currentAntennaType === 'directional') {
+                // Narrow Beam Grid / Dish Pattern (Point to Point)
+                const cx = w * 0.18;
+                const cy = h / 2;
+                const maxR = w * 0.75;
+                const startAngle = -Math.PI / 16; // -11.25 deg
+                const endAngle = Math.PI / 16;   // +11.25 deg
+
+                // Laser-like narrow expanding arcs
+                for (let r = antennaWaveOffset; r < maxR; r += 25) {
+                    let alpha = 1 - (r / maxR) * 0.7;
+                    antCtx.strokeStyle = `rgba(192, 132, 252, ${alpha})`;
+                    antCtx.lineWidth = 3;
+                    antCtx.beginPath();
+                    antCtx.arc(cx, cy, r, startAngle, endAngle);
+                    antCtx.stroke();
+                }
+
+                // Core intense beam fill
+                let beamGrad = antCtx.createLinearGradient(cx, cy, cx + maxR, cy);
+                beamGrad.addColorStop(0, 'rgba(192, 132, 252, 0.5)');
+                beamGrad.addColorStop(1, 'rgba(192, 132, 252, 0.05)');
+
+                antCtx.fillStyle = beamGrad;
+                antCtx.beginPath();
+                antCtx.moveTo(cx, cy);
+                antCtx.arc(cx, cy, maxR * 0.9, startAngle, endAngle);
+                antCtx.closePath();
+                antCtx.fill();
+
+                // Small side lobes (typical for directional dish)
+                antCtx.fillStyle = 'rgba(192, 132, 252, 0.15)';
+                antCtx.beginPath();
+                antCtx.arc(cx, cy, 35, Math.PI / 3, 2 * Math.PI / 3);
+                antCtx.fill();
+                antCtx.beginPath();
+                antCtx.arc(cx, cy, 35, -2 * Math.PI / 3, -Math.PI / 3);
+                antCtx.fill();
+
+                // Target receiving antenna icon
+                const rxX = cx + maxR * 0.85;
+                antCtx.strokeStyle = '#c084fc';
+                antCtx.lineWidth = 2;
+                antCtx.beginPath();
+                antCtx.arc(rxX, cy, 10, -Math.PI / 2, Math.PI / 2);
+                antCtx.stroke();
+
+                // Dish antenna icon at start
+                antCtx.fillStyle = '#9333ea';
+                antCtx.beginPath();
+                antCtx.arc(cx, cy, 12, Math.PI / 2, 3 * Math.PI / 2);
+                antCtx.fill();
+                antCtx.fillRect(cx - 10, cy - 2, 10, 4);
+            }
+
+            requestAnimationFrame(drawAntennaSignalPattern);
+        }
+
+        setTimeout(() => {
+            resizeAntennaCanvas();
+            drawAntennaSignalPattern();
+        }, 100);
+
+        /* ============================================================
+           4. LKPD EVALUATION & REPORT GENERATOR
+           ============================================================ */
+        function switchLkpdTab(type) {
+            if(type === 'teori') {
+                document.getElementById('lkpdPanelTeori').classList.remove('hidden');
+                document.getElementById('lkpdPanelPraktik').classList.add('hidden');
+                document.getElementById('lkpdTabBtnTeori').className = 'pb-3 border-b-2 border-sky-400 text-sky-400 transition';
+                document.getElementById('lkpdTabBtnPraktik').className = 'pb-3 border-b-2 border-transparent text-slate-400 hover:text-white transition';
+            } else {
+                document.getElementById('lkpdPanelTeori').classList.add('hidden');
+                document.getElementById('lkpdPanelPraktik').classList.remove('hidden');
+                document.getElementById('lkpdTabBtnPraktik').className = 'pb-3 border-b-2 border-purple-400 text-purple-400 transition';
+                document.getElementById('lkpdTabBtnTeori').className = 'pb-3 border-b-2 border-transparent text-slate-400 hover:text-white transition';
+            }
+        }
+
+        function evaluateQuiz(e) {
+            e.preventDefault();
+            const answers = { q1: 'C', q2: 'B', q3: 'B', q4: 'C' };
+            let score = 0;
+
+            const form = new FormData(e.target);
+            for(let key in answers) {
+                if(form.get(key) === answers[key]) {
+                    score += 25;
+                }
+            }
+
+            const name = document.getElementById('studentName').value;
+            const sClass = document.getElementById('studentClass').value;
+
+            document.getElementById('quizResult').classList.remove('hidden');
+            document.getElementById('scoreBadge').innerText = `Nilai: ${score} / 100`;
+            
+            const summary = document.getElementById('quizSummaryText');
+            if(score >= 75) {
+                summary.innerHTML = `<strong class="text-emerald-400">Selamat ${name} (${sClass})!</strong> Anda telah Tuntas (Kompeten) memahami materi Standar Jaringan Nirkabel & Troubleshooting TKJ dengan Nilai ${score}. Silakan melanjutkan ke LKPD Praktikum.`;
+            } else {
+                summary.innerHTML = `<strong class="text-amber-400">Siswa ${name} (${sClass}):</strong> Nilai Anda ${score} (Belum Mencapai KKM 75). Disarankan untuk membaca kembali bab Standar IEEE 802.11 dan coba ulang kuis.`;
+            }
+        }
+
+        function printPracticalReport() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
